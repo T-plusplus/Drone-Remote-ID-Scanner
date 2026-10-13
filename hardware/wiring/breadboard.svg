@@ -20,7 +20,7 @@
 
     <rect x="975" y="175" width="370" height="330" rx="18" fill="#ffffff" stroke="#bdc9d9" stroke-width="2"/>
     <rect x="995" y="195" width="330" height="52" rx="9" fill="#e7edf7"/>
-    <text x="1160" y="229" text-anchor="middle" font-size="22" font-weight="bold">Four-pin OLED breakout</text>
+    <text x="1160" y="229" text-anchor="middle" font-size="22" font-weight="bold">MakerFocus 0.91 inch OLED</text>
     <text x="1010" y="284" font-size="22">VCC / VDD</text>
     <text x="1010" y="344" font-size="22">GND</text>
     <text x="1010" y="404" font-size="22">SDA</text>
@@ -47,9 +47,9 @@
       <circle cx="455" cy="525" r="5"/>
     </g>
     <rect x="975" y="525" width="370" height="88" rx="12" fill="#fff0cf"/>
-    <text x="993" y="553" font-size="18" font-weight="bold">Verify 3.3 V input compatibility.</text>
-    <text x="993" y="579" font-size="17">The PDF covers the bare panel,</text>
-    <text x="993" y="602" font-size="17">not this breakout's power circuit.</text>
+    <text x="993" y="553" font-size="18" font-weight="bold">SSD1306 / 128 x 32 / four-pin I2C</text>
+    <text x="993" y="579" font-size="17">MakerFocus specifies 3.3-5 V input.</text>
+    <text x="993" y="602" font-size="17">Use 3.3 V with this ESP32 wiring.</text>
 
     <text x="552" y="550" font-size="21" font-weight="bold">SCAN input: active LOW</text>
     <text x="643" y="591" font-size="20" font-weight="bold" fill="#c13e45">3V3</text>
@@ -73,7 +73,7 @@
     <text x="1110" y="741" font-size="19">GND</text>
 
     <rect x="55" y="830" width="585" height="180" rx="14" fill="#ffffff" stroke="#bdc9d9" stroke-width="2"/>
-    <text x="77" y="861" font-size="20" font-weight="bold">I2C pull-ups: add ONLY if absent on the OLED</text>
+    <text x="77" y="861" font-size="20" font-weight="bold">Start without extras; add ONLY if absent</text>
     <g fill="none" stroke-width="3">
       <path d="M152 906 H250 M250 906 l8 -8 l12 16 l12 -16 l12 16 l8 -8 H464" stroke="#00806e"/>
       <path d="M152 961 H250 M250 961 l8 -8 l12 16 l12 -16 l12 16 l8 -8 H464" stroke="#2466b8"/>

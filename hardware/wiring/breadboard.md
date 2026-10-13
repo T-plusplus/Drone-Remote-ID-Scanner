@@ -1,8 +1,9 @@
 # Breadboard wiring
 
-For the ESP32-C61-DevKitC-1-N8R2, a four-pin I2C OLED breakout, and a normally-open
-momentary SCAN pushbutton. The OLED panel PDF identifies an SSD1306 128 x 32 panel;
-the actual breakout specifications have not been supplied.
+For the ESP32-C61-DevKitC-1-N8R2, the MakerFocus 0.91 inch SSD1306 128 x 32
+four-pin I2C OLED breakout (ASIN B079BN2J8V), and a normally-open momentary
+SCAN pushbutton. The user supplied the product link; MakerFocus specifies
+3.3-5 V input for this module.
 
 ![Breadboard wiring](breadboard.png)
 
@@ -31,15 +32,16 @@ and v2.0 board guides. GPIO0 is not the BOOT input on this board.
 3. Connect the OLED by its printed `VCC`/`VDD`, `GND`, `SDA`, and `SCL` labels.
    Header order varies between breakout boards; the diagram is a logical net
    diagram, not a physical header-order drawing.
-4. This power connection assumes the breakout is rated for 3.3 V input. Verify
-   that using the breakout's documentation or marked model before powering it.
-   The supplied bare-panel PDF does not prove the breakout's input rating.
-5. I2C needs pull-ups on SDA and SCL to 3.3 V. Many breakouts already include them.
-   If yours has none, add one 4.7 kOhm resistor from SDA to 3V3 and another from
-   SCL to 3V3, as shown in the diagram. Do not add duplicate resistors by default.
-   Do not pull either signal up to 5 V.
-6. If the breakout requires 5 V input, revise this wiring using its actual circuit
-   details; power and I2C logic levels must be treated separately.
+4. Connect OLED VCC to 3V3. MakerFocus lists 3.3-5 V input, so 3.3 V is supported.
+5. Start without extra I2C resistors. The manufacturer's rear-board photo shows
+   R3 and R4 marked 472 (4.7 kOhm), consistent with onboard I2C pull-ups. This is
+   an inference from the photo; their exact net connections still require a
+   schematic or continuity check of the actual board. The bare-panel PDF's
+   reference circuit also specifies 4.7 kOhm pull-ups, labeled R4 and R5 there.
+6. If testing shows pull-ups are absent, add one 4.7 kOhm resistor from SDA to
+   3V3 and another from SCL to 3V3, as shown in the optional diagram section.
+   Do not pull either signal up to 5 V. Added pull-ups operate in parallel with
+   any existing ones, so do not add duplicates without checking the bus.
 
 ## Button
 
@@ -72,7 +74,7 @@ I2C address 0x3C. Do not pass 0x78 to APIs expecting a seven-bit address.
 ## Prototype parts
 
 - ESP32-C61-DevKitC-1-N8R2 and USB data cable.
-- Four-pin I2C OLED breakout, with verified 3.3 V input compatibility.
+- MakerFocus 0.91 inch SSD1306 128 x 32 four-pin I2C OLED breakout.
 - Normally-open momentary pushbutton.
 - Breadboard and jumper wires.
 - One 10 kOhm resistor for the button pull-up.
@@ -80,6 +82,9 @@ I2C address 0x3C. Do not pass 0x78 to APIs expecting a seven-bit address.
 
 ## Sources
 
+- [User's OLED product](https://www.amazon.com/dp/B079BN2J8V?th=1)
+- [MakerFocus specifications](https://www.makerfocus.com/products/2pcs-i2c-oled-display-module-0-91-inch-i2c-ssd1306-oled-display-module-1)
+- [Manufacturer's board photo](https://www.makerfocus.com/cdn/shop/products/03_90ccb732-3d41-4af3-b497-5623ad72b067.jpg?v=1623377961)
 - [Espressif v2.0 header tables](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c61/esp32-c61-devkitc-1/user_guide.html#header-block)
 - [Espressif v1.0 header tables](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32c61/esp32-c61-devkitc-1/user_guide_v1.0.html#header-block)
 - [Supplied OLED panel PDF](../../datasheets/OLEDscreen.pdf), physical PDF pages

@@ -39,15 +39,18 @@ See [the wiring guide](hardware/wiring/breadboard.md) and
 
 | ESP32-C61 connection | Breadboard connection |
 | --- | --- |
-| 3V3, J1 pin 1 | OLED VCC/VDD, for a breakout rated for 3.3 V input |
+| 3V3, J1 pin 1 | MakerFocus OLED VCC |
 | GND, J1 pin 15 | OLED GND and button ground |
 | GPIO0, J1 pin 7, board label `0` | OLED SDA |
 | GPIO1, J1 pin 8, board label `1` | OLED SCL |
 | GPIO2, J1 pin 12, board label `2` | Normally-open button to GND; 10 kOhm pull-up to 3V3 |
 
 Power the ESP32 through USB for this prototype. Wire by the OLED header labels,
-not by an assumed left-to-right pin order. The supplied PDF describes the bare
-OLED panel, so the breakout input-voltage rating still needs verification.
+not by an assumed left-to-right pin order. The user identified the OLED as
+MakerFocus ASIN B079BN2J8V (0.91 inch, SSD1306, 128 x 32). MakerFocus specifies
+3.3-5 V input. Use 3.3 V and start without extra I2C pull-up resistors; onboard
+pull-ups are inferred from the manufacturer's component photo, pending a
+schematic or continuity check of the actual board.
 
 The eventual radio implementation must be validated for each intended Remote
 ID transport; receiving all nearby drones is not guaranteed. ESP32-C61 provides

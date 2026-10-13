@@ -1,0 +1,29 @@
+# Firmware build outputs and local tooling
+build/
+code/build/
+.pio/
+managed_components/
+sdkconfig.old
+.venv/
+__pycache__/
+*.pyc
+
+# Temporary files and editor settings
+.tmp/
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+*.tmp
+
+# KiCad local state and backups (track actual design files)
+*.kicad_prl
+*.kicad_sch.lck
+*.kicad_pcb.lck
+~*.lck
+*-backups/
+
+# CAD lock files (track CAD sources and intentional print exports)
+*.FCStd1
+*.dwl
+*.dwl2

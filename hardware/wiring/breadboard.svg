@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1080" viewBox="0 0 1400 1080">
+  <rect width="1400" height="1080" fill="#f5f7fb"/>
+  <g font-family="sans-serif" fill="#17263c">
+    <text x="55" y="61" font-size="32" font-weight="bold">Remote ID scanner: breadboard wiring</text>
+    <text x="55" y="100" font-size="20">ESP32-C61-DevKitC-1-N8R2 + four-pin I2C OLED breakout + SCAN button</text>
+    <text x="55" y="135" font-size="18" fill="#52627a">Logical connections. Match the printed pin labels; OLED header order varies by board.</text>
+
+    <rect x="55" y="175" width="400" height="400" rx="18" fill="#ffffff" stroke="#bdc9d9" stroke-width="2"/>
+    <rect x="80" y="195" width="350" height="52" rx="9" fill="#e7edf7"/>
+    <text x="255" y="229" text-anchor="middle" font-size="23" font-weight="bold">ESP32-C61 DevKitC-1</text>
+    <text x="82" y="284" font-size="22">3V3</text><text x="290" y="284" font-size="18" fill="#52627a">J1 pin 1</text>
+    <text x="82" y="344" font-size="22">GND / G</text><text x="290" y="344" font-size="18" fill="#52627a">J1 pin 15</text>
+    <text x="82" y="404" font-size="22">0 / GPIO0</text><text x="290" y="404" font-size="18" fill="#52627a">J1 pin 7</text>
+    <text x="82" y="464" font-size="22">1 / GPIO1</text><text x="290" y="464" font-size="18" fill="#52627a">J1 pin 8</text>
+    <text x="82" y="534" font-size="22">2 / GPIO2</text><text x="290" y="534" font-size="18" fill="#52627a">J1 pin 12</text>
+    <rect x="160" y="575" width="190" height="46" rx="8" fill="#e7edf7" stroke="#bdc9d9" stroke-width="2"/>
+    <text x="255" y="605" text-anchor="middle" font-size="19" font-weight="bold">USB power</text>
+    <text x="75" y="663" font-size="18" fill="#52627a">Use the breadboard rails for</text>
+    <text x="75" y="689" font-size="18" fill="#52627a">3V3 and common GND.</text>
+
+    <rect x="975" y="175" width="370" height="330" rx="18" fill="#ffffff" stroke="#bdc9d9" stroke-width="2"/>
+    <rect x="995" y="195" width="330" height="52" rx="9" fill="#e7edf7"/>
+    <text x="1160" y="229" text-anchor="middle" font-size="22" font-weight="bold">Four-pin OLED breakout</text>
+    <text x="1010" y="284" font-size="22">VCC / VDD</text>
+    <text x="1010" y="344" font-size="22">GND</text>
+    <text x="1010" y="404" font-size="22">SDA</text>
+    <text x="1010" y="464" font-size="22">SCL</text>
+
+    <g fill="none" stroke-width="4" stroke-linecap="round">
+      <path d="M455 275 H975" stroke="#c13e45"/>
+      <path d="M455 335 H975" stroke="#374151"/>
+      <path d="M455 395 H975" stroke="#00806e"/>
+      <path d="M455 455 H975" stroke="#2466b8"/>
+      <path d="M455 525 H510 V735 H845" stroke="#7950a2"/>
+    </g>
+    <g font-size="19" font-weight="bold">
+      <text x="595" y="263" fill="#c13e45">3.3 V supply</text>
+      <text x="595" y="323" fill="#374151">Common ground</text>
+      <text x="595" y="383" fill="#00806e">I2C data: SDA</text>
+      <text x="595" y="443" fill="#2466b8">I2C clock: SCL</text>
+    </g>
+    <g fill="#17263c">
+      <circle cx="455" cy="275" r="5"/><circle cx="975" cy="275" r="5"/>
+      <circle cx="455" cy="335" r="5"/><circle cx="975" cy="335" r="5"/>
+      <circle cx="455" cy="395" r="5"/><circle cx="975" cy="395" r="5"/>
+      <circle cx="455" cy="455" r="5"/><circle cx="975" cy="455" r="5"/>
+      <circle cx="455" cy="525" r="5"/>
+    </g>
+    <rect x="975" y="525" width="370" height="88" rx="12" fill="#fff0cf"/>
+    <text x="993" y="553" font-size="18" font-weight="bold">Verify 3.3 V input compatibility.</text>
+    <text x="993" y="579" font-size="17">The PDF covers the bare panel,</text>
+    <text x="993" y="602" font-size="17">not this breakout's power circuit.</text>
+
+    <text x="552" y="550" font-size="21" font-weight="bold">SCAN input: active LOW</text>
+    <text x="643" y="591" font-size="20" font-weight="bold" fill="#c13e45">3V3</text>
+    <g fill="none" stroke-width="3" stroke-linejoin="round">
+      <path d="M665 601 V624" stroke="#c13e45"/>
+      <path d="M665 624 l-9 8 l18 12 l-18 12 l18 12 l-18 12 l9 8" stroke="#17263c"/>
+      <path d="M665 688 V735" stroke="#7950a2"/>
+    </g>
+    <text x="697" y="649" font-size="20">R1: 10 kOhm</text>
+    <text x="697" y="676" font-size="17" fill="#52627a">Button pull-up</text>
+    <circle cx="665" cy="735" r="6" fill="#7950a2"/>
+    <text x="535" y="761" font-size="18" fill="#7950a2">GPIO2</text>
+    <g fill="none" stroke="#17263c" stroke-width="3" stroke-linecap="round">
+      <circle cx="850" cy="735" r="5" fill="#ffffff"/>
+      <circle cx="920" cy="735" r="5" fill="#ffffff"/>
+      <path d="M855 732 L910 708 M925 735 H1085 V751 M1067 751 H1103 M1074 759 H1096 M1081 767 H1089"/>
+    </g>
+    <text x="824" y="667" font-size="20" font-weight="bold">SW1: SCAN</text>
+    <text x="824" y="699" font-size="19">Momentary, normally open</text>
+    <text x="809" y="791" font-size="18" fill="#52627a">Released = HIGH; pressed = LOW</text>
+    <text x="1110" y="741" font-size="19">GND</text>
+
+    <rect x="55" y="830" width="585" height="180" rx="14" fill="#ffffff" stroke="#bdc9d9" stroke-width="2"/>
+    <text x="77" y="861" font-size="20" font-weight="bold">I2C pull-ups: add ONLY if absent on the OLED</text>
+    <g fill="none" stroke-width="3">
+      <path d="M152 906 H250 M250 906 l8 -8 l12 16 l12 -16 l12 16 l8 -8 H464" stroke="#00806e"/>
+      <path d="M152 961 H250 M250 961 l8 -8 l12 16 l12 -16 l12 16 l8 -8 H464" stroke="#2466b8"/>
+    </g>
+    <text x="85" y="913" font-size="20" fill="#00806e">SDA</text>
+    <text x="85" y="968" font-size="20" fill="#2466b8">SCL</text>
+    <text x="255" y="892" font-size="17">4.7 kOhm</text>
+    <text x="255" y="947" font-size="17">4.7 kOhm</text>
+    <text x="480" y="913" font-size="20" fill="#c13e45">3V3</text>
+    <text x="480" y="968" font-size="20" fill="#c13e45">3V3</text>
+
+    <rect x="670" y="830" width="675" height="180" rx="14" fill="#e7edf7"/>
+    <text x="694" y="862" font-size="20" font-weight="bold">Breadboard notes</text>
+    <text x="694" y="893" font-size="18">Four-leg button: use one leg from each separate contact group.</text>
+    <text x="694" y="922" font-size="18">Identify the groups with a continuity meter before wiring.</text>
+    <text x="694" y="951" font-size="18">Keep SDA/SCL at 3.3 V logic. Disconnect USB while wiring.</text>
+    <text x="694" y="980" font-size="18">Planned: press SCAN, then display the nearest aircraft's ID.</text>
+    <text x="55" y="1050" font-size="16" fill="#52627a">J1 positions checked against Espressif v1.0 and v2.0 guides. Diagram shows selected pins, not physical board scale.</text>
+  </g>
+</svg>

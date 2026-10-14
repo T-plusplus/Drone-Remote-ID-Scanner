@@ -45,23 +45,22 @@ and v2.0 board guides. GPIO0 is not the BOOT input on this board.
 
 ## Button
 
-- This is the SCAN button. The current hello-world app lights the OLED and shows
-  a greeting when pressed. Later it will start a Remote ID scan and display the
-  nearest aircraft's ID. Nearest-selection logic has not been chosen.
+- This is the SCAN button. Pressing it starts a six-second Remote ID search and
+  displays the strongest received ID, or `No drones found`.
 - Use a normally-open momentary switch. One electrically distinct switched
   terminal connects to GPIO2; the other connects to GND.
 - R1 = 10 kOhm connects GPIO2 to 3V3. The input reads HIGH when released and LOW
-  when pressed. The hello-world firmware also enables GPIO2's internal pull-up,
+  when pressed. The firmware also enables GPIO2's internal pull-up,
   so R1 may remain fitted or be omitted. The diagram shows the external pull-up
   so the idle state is defined before firmware starts.
 - On a four-leg tactile button, two legs may already be connected internally.
   Use a continuity meter to identify the two separate contact groups, then use
   one leg from each group. Do not connect both wires to one internally joined pair.
-- The hello-world firmware debounces presses for 30 ms.
+- The firmware debounces presses for 30 ms. Holding it triggers one scan only.
 
 ## Firmware settings
 
-The hello-world app selects SDA GPIO0, SCL GPIO1, and button GPIO2. I2C runs at
+The app selects SDA GPIO0, SCL GPIO1, and button GPIO2. I2C runs at
 100 kHz, and the app probes seven-bit addresses 0x3C and 0x3D automatically.
 The display is configured for the MakerFocus module's 128 x 32 resolution.
 

@@ -1,16 +1,38 @@
-# Button + OLED hello world
+# Button-triggered Remote ID scanner
 
-The first breadboard firmware milestone:
+Press SCAN to listen for drone Remote ID broadcasts for approximately six seconds.
+The OLED shows a countdown, then the Basic ID with the highest received RSSI,
+its signal strength in dBm, and the transport (BLE or WiFi). If no valid Basic ID
+arrives, it shows `No drones found`. Results stay visible until the next scan.
+Holding the button triggers one scan; presses during a scan are ignored.
+Every scan starts with an empty result, so old aircraft IDs are never reused.
 
-1. On startup the OLED is off.
-2. Press the SCAN button (GPIO2 to GND).
-3. The OLED lights up with `Hello,` and `world!` on two lines.
-4. Releasing the button leaves the message visible. Later presses also leave it
-   visible. Reset the ESP32 to return to the initial screen-off state.
+The receiver listens passively for:
 
-The button is debounced for 30 ms. An internal button pull-up is enabled, so the
-external 10 kOhm button resistor can remain fitted or be omitted. I2C uses the
-breakout's expected onboard pull-ups; no extra I2C resistors are added by default.
+- Bluetooth LE legacy and extended advertisements on the 1M and coded PHYs,
+  using the Remote ID service UUID 0xFFFA and app code 0x0D.
+- 2.4 GHz Wi-Fi Remote ID vendor beacons and NAN service discovery frames,
+  using the OpenDroneID message-pack format.
+
+Bluetooth gets three seconds, followed by three seconds of Wi-Fi. Separating
+these phases avoids the SDK's documented unstable simultaneous BLE scan / Wi-Fi
+sniffer combination. Wi-Fi channel 6 gets one second; channels 1-5 and 7-11 get
+200 ms each. This is a short proof-of-concept search: repeat SCAN if needed.
+Radio failures show `Scan error` instead of a misleading empty result.
+
+The selection uses the strongest individual valid Basic ID report in the window.
+RSSI is a rough proximity estimate: antenna orientation, transmit power, obstacles,
+and the different radio transports affect it. It does not measure physical distance.
+`No drones found` means no supported Basic ID was received during that window.
+The ESP32-C61 cannot receive 5 GHz Wi-Fi, and this app does not decode proprietary
+drone protocols. Aircraft reception still needs testing with a real transmitter.
+
+Serial numbers and registration IDs are displayed as text. UUIDs and session IDs
+are displayed as hexadecimal, wrapped across the screen without truncation.
+Packet parsing checks lengths and protocol versions before decoding the Basic ID
+with the vendored OpenDroneID C library.
+
+## Breadboard settings
 
 | Board label | Function |
 | --- | --- |
@@ -20,74 +42,71 @@ breakout's expected onboard pull-ups; no extra I2C resistors are added by defaul
 | `1` / GPIO1 | OLED SCL |
 | `2` / GPIO2 | SCAN button input, active low |
 
-The app probes I2C addresses 0x3C and 0x3D automatically. It uses ESP-IDF's built-in
-SSD1306 driver with 128 x 32 resolution and a tiny greeting font; no external
-display library, Arduino framework, or graphics framework is required.
+The button is debounced for 30 ms and uses an internal pull-up. The external
+10 kOhm button resistor may remain fitted or be omitted. No additional I2C
+pull-ups are required by default. The app probes addresses 0x3C and 0x3D and uses
+ESP-IDF's SSD1306 driver at 100 kHz with a 128 x 32 display and an 8 x 8 font.
 
 ## Build and flash
 
-This app uses ESP-IDF **5.5.5 or newer**, and is set up with **5.5.5**. Production
-ESP32-C61 support began with 5.5.2; the previously installed 5.2 SDK does not
-support this board.
-
-In PowerShell on this machine, use the project launcher:
+This project is built with ESP-IDF **5.5.5**, targeting ESP32-C61 with 8 MB flash.
+The older installed 5.2 SDK does not support this board.
 
 ```powershell
 Set-Location 'D:\Users\Tyler\Documents\DroneRemoteIDScanner\code'
 .\idf.cmd build
+.\idf.cmd -p COM3 flash
 ```
 
-`idf.cmd` selects the SDK at `C:\Users\Tyler\esp\v5.5.5\esp-idf`
-and the tools at `C:\Users\Tyler\.espressif-c61`, including the installed
-Python 3.11 environment. It activates the tools in its child Command Prompt
-process and forwards the arguments to ESP-IDF. It works when PowerShell blocks
-`.ps1` scripts and requires no execution-policy changes or administrator rights.
-You do not need to run `activate.ps1` first or have `idf.py` on your shell's PATH.
+`idf.cmd` activates the SDK at `C:\Users\Tyler\esp\v5.5.5\esp-idf` and tools at
+`C:\Users\Tyler\.espressif-c61` in a child Command Prompt. It works with restricted
+PowerShell execution policy; no `activate.ps1` or policy change is necessary.
+Use `.\idf.cmd ports` to find the port and substitute it for COM3 if needed.
+Connect through the board's native ESP32 USB port for the configured USB console.
+Optional logs: `.\idf.cmd -p COM3 monitor`; exit with Ctrl+].
 
-The installation defaults use your Windows user profile. Override the
-`C61_IDF_PATH` and `C61_TOOLS_PATH` environment variables if you put the SDK
-elsewhere. On another computer, install the SDK and its tools first; they are
-not vendored into this repository.
+The launcher uses `code/build-remote-id/`, including its own generated `sdkconfig`,
+so the previous Hello World build's radio settings cannot override scanner defaults.
+`sdkconfig.defaults` enables NimBLE observer mode, extended/coded scanning and
+radio coexistence. `partitions.csv` provides a 3 MB application partition within
+the board's 8 MB flash. Generated build files are ignored by Git.
 
-Connect a USB data cable to the board's **native ESP32 USB port**. Console output
-is configured for USB Serial/JTAG. Find the port:
+Override `C61_IDF_PATH`, `C61_TOOLS_PATH`, or `C61_BUILD_PATH` if needed. Another
+computer must install ESP-IDF and its tools; they are not included in this repo.
 
-```powershell
-.\idf.cmd ports
-```
+## Validation and bench check
 
-Then replace `COM3` below if your board uses another port:
+The ESP32-C61 build passes, including bootloader and application partition size
+checks. Host tests cover BLE, message packs, Wi-Fi beacon/NAN framing, fragmented
+BLE advertisements, strongest-RSSI selection, and 20,000 malformed inputs under
+AddressSanitizer. Run them from `code` with `.\tests\run.cmd` (Visual Studio C++
+Build Tools and its AddressSanitizer component are required).
 
-```powershell
-.\idf.cmd -p COM3 flash monitor
-```
+The firmware was flashed over COM3 with verified hashes. A startup log from the
+actual board confirmed the OLED at 0x3C, Wi-Fi and Bluetooth initialization, and
+the ready state. The breadboard operator also confirmed the button-triggered
+countdown and `No drones found` result. Live drone reception and strongest-signal
+selection among multiple transmitters still need bench testing.
 
-Exit the monitor with Ctrl+]. If connecting through the USB-to-UART port instead,
-select UART console in `.\idf.cmd menuconfig` (Component config > ESP System Settings
-> Channel for console output) to see logs through that port.
+On the breadboard:
 
-## Bench check
+1. Reset: `Starting radios`, then `Remote ID ready` / `Press SCAN`.
+2. Press SCAN: countdown, then a Remote ID or `No drones found`.
+3. Hold SCAN: one scan only. Release and press again for a new scan.
+4. Test with a known Remote ID transmitter. Confirm its ID and move it to check
+   changes in RSSI; use multiple transmitters to test strongest-signal selection.
+5. If the OLED shows `Radio error` or `Scan error`, inspect the optional USB log.
 
-Validation: the full ESP32-C61 firmware build passed using ESP-IDF 5.5.5,
-including bootloader, application image, and partition size checks. The Windows
-launcher and build were also checked from Windows PowerShell with Restricted
-execution policy. Flashing and the following physical breadboard checks have not
-been performed yet.
+## Source layout and references
 
-- After reset, the screen stays off and the monitor prints `Ready. Press SCAN...`.
-- A brief button press shows the two-line greeting and one `SCAN pressed` log.
-- Holding the button does not continually generate new presses.
-- Releasing and pressing again produces one new press log.
-- If held during startup, release and press it again to trigger the greeting.
-- If the display is missing, the monitor reports the address and wiring checks.
-  Reconnect the display with power removed, then reset the board.
+- `main/main.c`: button and screen flow.
+- `main/oled.c`: SSD1306 initialization and four-line rendering.
+- `main/rid_scanner.c`: radios, channel schedule and scan lifecycle.
+- `main/rid_protocol.c`: bounded transport parsing and result selection.
+- `components/opendroneid/`: pinned decoder, license and provenance.
+- `main/fonts/`: public-domain font and provenance.
+- `tests/`: host parser and selection tests.
 
-This milestone does not receive drone broadcasts yet. The later SCAN behavior
-will scan for Remote ID and select the nearest aircraft using a method still to
-be defined.
-
-## References
-
-- [ESP32-C61 support status](https://developer.espressif.com/hardware/esp32c61/)
-- [ESP-IDF's SSD1306 example](https://github.com/espressif/esp-idf/tree/v5.5.5/examples/peripherals/lcd/i2c_oled)
-- [Breadboard wiring](../hardware/wiring/breadboard.md)
+References: [OpenDroneID C library](https://github.com/opendroneid/opendroneid-core-c),
+[Espressif coexistence guide](https://docs.espressif.com/projects/esp-idf/en/v5.5.5/esp32c61/api-guides/coexist.html),
+and [breadboard wiring](../hardware/wiring/breadboard.md).

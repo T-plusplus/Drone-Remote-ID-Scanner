@@ -1,6 +1,7 @@
 # Firmware build outputs and local tooling
 build/
 code/build/
+code/build-remote-id/
 .pio/
 managed_components/
 sdkconfig.old

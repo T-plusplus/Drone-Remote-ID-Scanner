@@ -4,14 +4,15 @@ An ESP32-C61-DevKitC-1-N8R2 breadboard proof of concept for receiving nearby
 drone Remote ID broadcasts and displaying results on an I2C OLED, with one
 SCAN pushbutton.
 
-Intended behavior: pressing SCAN starts a scan and displays the nearest
-aircraft's Remote ID. The method for determining nearest will be decided when
-firmware work starts: strongest received signal is a proximity estimate; true
-geographic distance needs the aircraft position and the receiver's own position.
+Pressing SCAN starts a six-second passive search: three seconds of Bluetooth LE,
+then three seconds of 2.4 GHz Wi-Fi. The OLED displays the Remote ID with the
+strongest received signal, or `No drones found` if no valid Basic ID arrives.
+Strongest RSSI estimates proximity; it does not establish physical distance.
 
-Current stage: breadboard proof of concept. The first firmware app lights the
-OLED with `Hello, world!` when SCAN is pressed; see [code setup](code/README.md).
-Drone reception, schematics/PCB design, and printable enclosure design are future work.
+Current stage: breadboard proof of concept with Remote ID receiver firmware;
+see [code setup and supported transports](code/README.md). Reception of actual
+drone broadcasts still needs bench validation. Schematics/PCB design and
+printable enclosure design remain future work.
 
 ## Project structure
 
@@ -53,10 +54,9 @@ MakerFocus ASIN B079BN2J8V (0.91 inch, SSD1306, 128 x 32). MakerFocus specifies
 pull-ups are inferred from the manufacturer's component photo, pending a
 schematic or continuity check of the actual board.
 
-The eventual radio implementation must be validated for each intended Remote
-ID transport; receiving all nearby drones is not guaranteed. ESP32-C61 provides
-2.4 GHz Wi-Fi and Bluetooth LE, with no 5 GHz Wi-Fi reception. This is a future
-firmware scope note, not an implemented capability.
+The firmware parses Remote ID BLE legacy/extended advertisements and 2.4 GHz
+Wi-Fi beacons/NAN frames. ESP32-C61 has no 5 GHz Wi-Fi reception. A short scan
+can miss broadcasts; `No drones found` means none were decoded in that window.
 
 ## Reference sources
 

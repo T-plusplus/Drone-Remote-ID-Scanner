@@ -7,6 +7,7 @@ if not defined C61_TOOLS_PATH set "C61_TOOLS_PATH=%USERPROFILE%\.espressif-c61"
 set "IDF_PATH=%C61_IDF_PATH%"
 set "IDF_TOOLS_PATH=%C61_TOOLS_PATH%"
 set "IDF_PYTHON_ENV_PATH=%IDF_TOOLS_PATH%\python_env\idf5.5_py3.11_env"
+if not defined C61_BUILD_PATH set "C61_BUILD_PATH=%~dp0build-remote-id"
 
 if not exist "%IDF_PATH%\export.bat" (
     echo ESP-IDF 5.5.5 was not found at "%IDF_PATH%".
@@ -26,7 +27,7 @@ if errorlevel 1 exit /b %errorlevel%
 if /I "%~1"=="ports" (
     python -m serial.tools.list_ports -v
 ) else (
-    python "%IDF_PATH%\tools\idf.py" %*
+    python "%IDF_PATH%\tools\idf.py" -B "%C61_BUILD_PATH%" -D "SDKCONFIG=%C61_BUILD_PATH%\sdkconfig" %*
 )
 set "IDF_RESULT=%errorlevel%"
 popd

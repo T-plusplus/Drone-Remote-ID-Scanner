@@ -4,6 +4,8 @@ code/build/
 .pio/
 managed_components/
 sdkconfig.old
+code/sdkconfig
+*.log
 .venv/
 __pycache__/
 *.pyc

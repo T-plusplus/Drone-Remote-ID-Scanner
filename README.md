@@ -9,14 +9,15 @@ aircraft's Remote ID. The method for determining nearest will be decided when
 firmware work starts: strongest received signal is a proximity estimate; true
 geographic distance needs the aircraft position and the receiver's own position.
 
-Current stage: folder organization and breadboard wiring only. Firmware,
-schematics/PCB design, and printable enclosure design have not started.
+Current stage: breadboard proof of concept. The first firmware app lights the
+OLED with `Hello, world!` when SCAN is pressed; see [code setup](code/README.md).
+Drone reception, schematics/PCB design, and printable enclosure design are future work.
 
 ## Project structure
 
 ```text
 DroneRemoteIDScanner/
-|-- code/                       Future firmware and its build configuration
+|-- code/                       ESP-IDF firmware and its build configuration
 |-- hardware/
 |   |-- wiring/                 Breadboard diagram and connection guide
 |   |-- kicad/                  Future schematic and PCB project

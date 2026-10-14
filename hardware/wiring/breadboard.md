@@ -45,28 +45,25 @@ and v2.0 board guides. GPIO0 is not the BOOT input on this board.
 
 ## Button
 
-- This is the SCAN button: pressing it will start a scan and display the nearest
-  aircraft's Remote ID. Wiring establishes the input; this behavior will be
-  implemented in firmware later. Nearest-selection logic has not been chosen.
+- This is the SCAN button. The current hello-world app lights the OLED and shows
+  a greeting when pressed. Later it will start a Remote ID scan and display the
+  nearest aircraft's ID. Nearest-selection logic has not been chosen.
 - Use a normally-open momentary switch. One electrically distinct switched
   terminal connects to GPIO2; the other connects to GND.
-- R1 = 10 kOhm connects GPIO2 to 3V3. With this external pull-up, configure GPIO2
-  as a digital input. The input reads HIGH when released and LOW when pressed.
-- An alternative is to omit R1 and enable GPIO2's internal pull-up in firmware.
-  The diagram shows the external pull-up so the idle state is defined before
-  firmware starts.
+- R1 = 10 kOhm connects GPIO2 to 3V3. The input reads HIGH when released and LOW
+  when pressed. The hello-world firmware also enables GPIO2's internal pull-up,
+  so R1 may remain fitted or be omitted. The diagram shows the external pull-up
+  so the idle state is defined before firmware starts.
 - On a four-leg tactile button, two legs may already be connected internally.
   Use a continuity meter to identify the two separate contact groups, then use
   one leg from each group. Do not connect both wires to one internally joined pair.
-- Debounce button presses in firmware; about 20-50 ms is a reasonable starting
-  interval. No debounce implementation has been added yet.
+- The hello-world firmware debounces presses for 30 ms.
 
-## Future firmware settings
+## Firmware settings
 
-Explicitly select SDA GPIO0, SCL GPIO1, and button GPIO2. Start I2C at 100 kHz.
-Perform an I2C address scan rather than assuming the breakout address; SSD1306
-boards commonly use seven-bit address 0x3C or 0x3D. Configure the display for
-128 x 32 if the supplied panel PDF matches the actual screen.
+The hello-world app selects SDA GPIO0, SCL GPIO1, and button GPIO2. I2C runs at
+100 kHz, and the app probes seven-bit addresses 0x3C and 0x3D automatically.
+The display is configured for the MakerFocus module's 128 x 32 resolution.
 
 The raw-panel sample writes address byte 0x78, which corresponds to seven-bit
 I2C address 0x3C. Do not pass 0x78 to APIs expecting a seven-bit address.

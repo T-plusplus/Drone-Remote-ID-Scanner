@@ -1,8 +1,12 @@
 # Hardware
 
 - `wiring/`: current breadboard wiring guide and diagram.
-- `kicad/`: reserved for the future KiCad schematic and PCB project.
-- `exports/`: reserved for future schematic PDFs, Gerbers, drill files, and BOM exports.
+- `kicad/`: [Rev A KiCad project and schematic](kicad/README.md), plus local symbols.
+- `exports/`: [schematic PDF](exports/DroneRemoteIDScanner-schematic.pdf),
+  [SVG](exports/DroneRemoteIDScanner.svg), and
+  [ERC report](exports/DroneRemoteIDScanner-erc.txt).
 
-The proof of concept uses the complete ESP32 development board and the user's
-four-pin OLED breakout. No PCB or KiCad design has been created.
+The schematic documents the complete ESP32 development board, the user's
+four-pin OLED breakout, and the SCAN button. It matches the breadboard wiring
+and current firmware. PCB layout and footprint selection have not started;
+the KiCad notes list the physical details that must be verified first.

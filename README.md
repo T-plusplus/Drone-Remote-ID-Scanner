@@ -9,10 +9,11 @@ then three seconds of 2.4 GHz Wi-Fi. The OLED displays the Remote ID with the
 strongest received signal, or `No drones found` if no valid Basic ID arrives.
 Strongest RSSI estimates proximity; it does not establish physical distance.
 
-Current stage: breadboard proof of concept with Remote ID receiver firmware;
-see [code setup and supported transports](code/README.md). Reception of actual
-drone broadcasts still needs bench validation. Schematics/PCB design and
-printable enclosure design remain future work.
+Current stage: breadboard proof of concept with Remote ID receiver firmware and
+a [KiCad prototype schematic](hardware/kicad/README.md). See
+[code setup and supported transports](code/README.md). Reception of actual
+drone broadcasts still needs bench validation. PCB layout and printable
+enclosure design remain future work.
 
 ## Project structure
 
@@ -21,8 +22,8 @@ DroneRemoteIDScanner/
 |-- code/                       ESP-IDF firmware and its build configuration
 |-- hardware/
 |   |-- wiring/                 Breadboard diagram and connection guide
-|   |-- kicad/                  Future schematic and PCB project
-|   `-- exports/                Future schematic PDFs and fabrication outputs
+|   |-- kicad/                  KiCad project, schematic, and local symbols
+|   `-- exports/                Schematic PDF/SVG and electrical-check report
 |-- datasheets/                 Supplied OLED PDF and future module datasheets
 `-- enclosures/
     |-- cad/                    Future editable enclosure designs
